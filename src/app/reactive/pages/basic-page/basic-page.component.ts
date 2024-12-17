@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   templateUrl: './basic-page.component.html',
@@ -8,9 +8,9 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class BasicPageComponent {
 
   public myForm: FormGroup = new FormGroup({
-    name: new FormControl(''),
-    price: new FormControl(0),
-    inStorage: new FormControl(0),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    price: new FormControl(0, [Validators.required, Validators.min(0)]),
+    inStorage: new FormControl(0, [Validators.required, Validators.min(0)]),
   })
 
   // De esta forma se puede utilizar el form builder, pero da problema, asi que utilizare formcontrol.
@@ -23,6 +23,8 @@ export class BasicPageComponent {
   // constructor(private fb: FormBuilder) {}
 
   onSave(): void {
+    if(this.myForm.invalid) return;
+
     console.log(this.myForm.value);
   }
 }
