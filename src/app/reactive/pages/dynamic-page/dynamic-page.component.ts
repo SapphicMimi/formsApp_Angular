@@ -27,6 +27,8 @@ export class DynamicPageComponent {
     ])
   })
 
+  public newFavorite: FormControl = new FormControl('', Validators.required)
+
   constructor(private fb: FormBuilder) {}
 
   get favoriteGames() {
@@ -60,6 +62,19 @@ export class DynamicPageComponent {
       && formArray.controls[index].touched;
   }
 
+  onAddToFavorites(): void {
+    if(this.newFavorite.invalid) return;
+
+    const newGame = this.newFavorite.value;
+
+    // this.favoriteGames.push(new FormControl(newGame, Validators.required))
+    this.favoriteGames.push(
+      this.fb.control(newGame, Validators.required)
+    );
+
+    this.newFavorite.reset();
+  }
+
   onDeleteFavorite(index: number): void {
     this.favoriteGames.removeAt(index);
   }
@@ -71,6 +86,7 @@ export class DynamicPageComponent {
     }
 
     console.log(this.myForm.value);
+    (this.myForm.controls['favoriteGames'] as FormArray) = this.fb.array([]);
     this.myForm.reset();
   }
 }
