@@ -58,7 +58,7 @@
                            formControlName="password"
                            placeholder="Password de su cuenta">
 
-                    <span class="form-text text-danger">
+                    <span *ngIf="isValidField('password')" class="form-text text-danger">
                          La contraseña debe de ser mayor de 6 caracteres.
                     </span>
                 </div>
